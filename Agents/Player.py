@@ -4,14 +4,19 @@ import abc
 class Player(abc.ABC):
 
     # Initially each player has 20 armies at his disposal,
-    # and controls no territories at all.
-    def __init__(self, territories=None):
+    # and controls no territories at all. Each player also
+    # has a copy of the game map to plan his moves accordingly.
+    def __init__(self, game_map, territories=None):
         if territories is None:
             territories = {}
+        self.map = game_map
         self.armies = 20
         self.territories = territories
         super().__init__()
 
+    # Each turn consists of two parts: placing armies and attacking.
+    # Strategies of placing armies and attacking territories depend
+    # on the player.
     def play(self):
         self.place_armies()
         self.attack()
