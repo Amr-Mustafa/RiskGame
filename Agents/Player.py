@@ -6,11 +6,10 @@ class Player(abc.ABC):
     # Initially each player has 20 armies at his disposal,
     # and controls no territories at all. Each player also
     # has a copy of the game map to plan his moves accordingly.
-    def __init__(self, game_map, territories=None):
-        if territories is None:
-            territories = {}
+    def __init__(self, player_id, armies, game_map, territories):
+        self.player_id = player_id
         self.map = game_map
-        self.armies = 20
+        self.armies = armies
         self.territories = territories
         super().__init__()
 

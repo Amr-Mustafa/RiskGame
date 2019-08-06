@@ -1,7 +1,7 @@
 from Agents.Player import Player
 
 
-class PassiveHuman(Player):
+class PassiveAgent(Player):
 
     # A passive human player places all of its bonus armies to the
     # territory with the fewest armies.

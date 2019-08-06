@@ -2,7 +2,7 @@ import abc
 from Agents import Player
 
 
-class HumanPlayer(Player):
+class HumanAgent(Player):
 
     @abc.abstractmethod
     def play(self):

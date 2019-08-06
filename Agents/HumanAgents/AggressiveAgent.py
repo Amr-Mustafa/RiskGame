@@ -2,7 +2,7 @@ from Agents.Player import Player
 from Map import Map
 
 
-class AggressiveHuman(Player):
+class AggressiveAgent(Player):
 
     # An aggressive human player places all of its bonus armies to the
     # territory with the most armies.
@@ -37,6 +37,7 @@ class AggressiveHuman(Player):
         attack_bases = [(territory, self.territories[territory]) for territory in self.territories
                         if self.can_attack(strongest_territory[0], territory)]
 
+        # Choose the attack base.
         attack_base = attack_bases[0]
 
         # The actual battle starts here! We know the player's base and the target.
@@ -73,8 +74,3 @@ class AggressiveHuman(Player):
                 return True
 
         return False
-
-
-if __name__ == '__main__':
-    agent = AggressiveHuman(Map('Egypt'), {'1': '9', '2': '1', '14': '9'})
-    agent.attack()
