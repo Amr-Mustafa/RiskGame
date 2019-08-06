@@ -25,7 +25,7 @@ class Map:
         '18': (['8', '17'], 0),
         '19': (['14', '15', '16', '20', '23'], 0),
         '20': (['14', '19', '21', '22', '23'], 0),
-        '21': (['1', '14', '20', '22', '24', '25', '27'], 0),
+        '21': (['1', '14', '20', '22', '24', '25', '27'], 5),
         '22': (['20', '21', '23', '24'], 0),
         '23': (['16', '17', '19', '20', '22', '24', '25', '27'], 0),
         '24': (['21', '22', '23', '25'], 0),
@@ -96,5 +96,9 @@ class Map:
             self.game_map = self.Egypt
 
     # Get the adjacency list for the given territory.
-    def adjacent(self, territory):
+    def adjacent_territories(self, territory):
         return self.game_map[territory][0]
+
+    # Check if two territories are adjacent to each other.
+    def adjacent(self, t_1, t_2):
+        return t_2 in self.game_map[t_1][0]
