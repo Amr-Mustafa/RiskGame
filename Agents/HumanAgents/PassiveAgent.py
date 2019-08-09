@@ -12,8 +12,8 @@ class PassiveAgent(Player):
         bonus_armies = 3 if number_of_territories < 3 else number_of_territories // 3
 
         # Find the conquered territory with the least number of armies and reinforce it.
-        weakest_territory = list(sorted(self.territories.items(), key=lambda item: item[1]))[0][0]
-        self.territories[weakest_territory] = str(int(self.territories[weakest_territory]) + bonus_armies)
+        weakest_territory = list(sorted(self.territories, key=lambda key: self.territories[key].armies))[0]
+        self.territories[weakest_territory].armies = int(self.territories[weakest_territory].armies) + bonus_armies
 
     # A passive human player does not attack at all.
     def attack(self):
