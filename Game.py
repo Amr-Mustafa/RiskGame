@@ -52,10 +52,13 @@ class Game:
         print("Blue: " + str(
             [(self.players[1].territories[key].identifier, self.players[1].territories[key].armies) for key in
              self.players[1].territories]))
-
+        print(self.players[0].remaining_armies())
+        print(self.players[1].remaining_armies())
         # while len(self.players[0].territories) < 27 and len(self.players[1].territories) < 27:
 
         self.players[0].play()
+        print(self.players[0].remaining_armies())
+        print(self.players[1].remaining_armies())
 
         print("Red: " + str(
             [(self.players[0].territories[key].identifier, self.players[0].territories[key].armies) for key in
@@ -65,6 +68,8 @@ class Game:
              self.players[1].territories]))
 
         self.players[1].play()
+        print(self.players[0].remaining_armies())
+        print(self.players[1].remaining_armies())
 
         print("Red: " + str(
             [(self.players[0].territories[key].identifier, self.players[0].territories[key].armies) for key in

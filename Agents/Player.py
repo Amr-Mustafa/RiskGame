@@ -27,3 +27,10 @@ class Player(abc.ABC):
     @abc.abstractmethod
     def attack(self):
         pass
+
+    def remaining_armies(self):
+        armies = 0
+        for territory in self.map.game_map:
+            if territory not in self.territories:
+                armies += self.map.game_map[territory].armies
+        return armies
