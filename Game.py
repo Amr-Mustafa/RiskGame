@@ -45,40 +45,39 @@ class Game:
         # Setup the map. The initial placement of armies is done randomly for all players.
         self.map.randomize(self.players)
 
+        print("Red: " + str(
+            [(self.players[0].territories[key].identifier, self.players[0].territories[key].armies) for key in
+             self.players[0].territories]))
+        print("Blue: " + str(
+            [(self.players[1].territories[key].identifier, self.players[1].territories[key].armies) for key in
+             self.players[1].territories]))
+
+        # print("Red Armies: " + str(self.players[0].armies))
+        # print("Blue Armies: " + str(self.players[1].armies))
+
         # Game loop.
-        print("Red: " + str(
-            [(self.players[0].territories[key].identifier, self.players[0].territories[key].armies) for key in
-             self.players[0].territories]))
-        print("Blue: " + str(
-            [(self.players[1].territories[key].identifier, self.players[1].territories[key].armies) for key in
-             self.players[1].territories]))
-        print(self.players[0].remaining_armies())
-        print(self.players[1].remaining_armies())
-        # while len(self.players[0].territories) < 27 and len(self.players[1].territories) < 27:
+        player_turn = 0
+        while not self.winner():
+            self.players[player_turn].play()
+            player_turn = 0 if player_turn == 1 else 1
 
-        self.players[0].play()
-        print(self.players[0].remaining_armies())
-        print(self.players[1].remaining_armies())
+            print("Red: " + str(
+                [(self.players[0].territories[key].identifier, self.players[0].territories[key].armies) for key in
+                 self.players[0].territories]))
+            print("Blue: " + str(
+                [(self.players[1].territories[key].identifier, self.players[1].territories[key].armies) for key in
+                 self.players[1].territories]))
+            input("Press Enter to continue...")
 
-        print("Red: " + str(
-            [(self.players[0].territories[key].identifier, self.players[0].territories[key].armies) for key in
-             self.players[0].territories]))
-        print("Blue: " + str(
-            [(self.players[1].territories[key].identifier, self.players[1].territories[key].armies) for key in
-             self.players[1].territories]))
-
-        self.players[1].play()
-        print(self.players[0].remaining_armies())
-        print(self.players[1].remaining_armies())
-
-        print("Red: " + str(
-            [(self.players[0].territories[key].identifier, self.players[0].territories[key].armies) for key in
-             self.players[0].territories]))
-        print("Blue: " + str(
-            [(self.players[1].territories[key].identifier, self.players[1].territories[key].armies) for key in
-             self.players[1].territories]))
+    # Check for a winner. A winner is a player who eliminates the other player.
+    def winner(self):
+        if len(self.players[0].territories) == 0:
+            return True
+        elif len(self.players[1].territories) == 0:
+            return True
+        return False
 
 
 if __name__ == '__main__':
-    game = Game('Simulation', 'Egypt', ['Aggressive_Agent', 'Passive_Agent'])
+    game = Game('Simulation', 'Egypt', ['Aggressive_Agent', 'Aggressive_Agent'])
     game.start()

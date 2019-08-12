@@ -25,28 +25,38 @@ class AggressiveAgent(Player):
         weak_territories = list(
             filter(lambda territory: territory.identifier not in self.territories.keys(), weak_territories))
 
-        # Now that we have all the territories that can be attacked, we need to pick the one
-        # with the highest number of armies (strongest one) and attack it.
-        strongest_territory = list(sorted(weak_territories, key=lambda territory: territory.armies, reverse=True))[0]
+        # Attack all weak territories starting with the strongest one.
+        while len(weak_territories) > 0:
 
-        # At this point, we know the target of the attack, but we still do not know from which
-        # conquered territory the player is going to attack. Thus, we find the possible attack bases.
-        attack_bases = [self.territories[key] for key in self.territories.keys()
-                        if self.can_attack(strongest_territory, self.territories[key])]
+            # Now that we have all the territories that can be attacked, we need to pick the one
+            # with the highest number of armies (strongest one) and attack it.
+            strongest_territory = list(sorted(
+                weak_territories, key=lambda territory: territory.armies, reverse=True))[0]
 
-        # Choose the attack base.
-        attack_base = attack_bases[0]
+            # At this point, we know the target of the attack, but we still do not know from which
+            # conquered territory the player is going to attack. Thus, we find the possible attack bases.
+            attack_bases = [self.territories[key] for key in self.territories.keys()
+                            if self.can_attack(strongest_territory, self.territories[key])]
 
-        # The actual battle starts here! We know the player's base and the target.
-        # What if the territory is unoccupied?
-        # if strongest_territory.player is not None:
-        strongest_territory.player.territories.pop(strongest_territory.identifier)  # Territory lost.
-        strongest_territory.player = self  # Territory gained.
-        self.territories[strongest_territory.identifier] = strongest_territory  # Territory gained.
-        strongest_territory.armies = attack_base.armies - 1  # Must leave one army behind for defense.
-        attack_base.armies = 1  # One army for defense.
-        # else:
+            # Choose the attack base.
+            attack_base = attack_bases[0]
 
+            # The actual battle starts here! We know the player's base and the target.
+            # What if the territory is unoccupied?
+            if strongest_territory.player is not None:
+                strongest_territory.player.territories.pop(strongest_territory.identifier)  # Territory lost.
+            strongest_territory.player = self  # Territory gained.
+            self.territories[strongest_territory.identifier] = strongest_territory  # Territory gained.
+            strongest_territory.armies = attack_base.armies - 1  # Must leave one army behind for defense.
+            attack_base.armies = 1  # One army for defense.
+
+            # Get all the territories that the player can attack.
+            weak_territories = [self.map.game_map[key] for key in self.map.game_map if
+                                self.can_attack(self.map.game_map[key]) is True]
+
+            # A player can not attack a territory he is already occupying so we remove those.
+            weak_territories = list(
+                filter(lambda territory: territory.identifier not in self.territories.keys(), weak_territories))
 
     # A player can attack a territory if it is adjacent to one of his conquered
     # territories and if it is "weak".
